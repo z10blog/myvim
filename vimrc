@@ -1,185 +1,178 @@
-set nocompatible
-filetype off
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+highlight SyntasticErrorSign guifg=white guibg=black
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'vim-scripts/indentpython.vim'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'altercation/vim-color-solarized'
-call vundle#end()
+Plugin 'scrooloose/nerdtree'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'Yggdroot/indentLine'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'lambdalisue/vim-pyenv',{
+			\ 'depends': ['davidhalter/jedi-vim'],
+			\ 'autoload': {
+			\ 'filetypes': ['python','python3'],
+			\}}
+" Plugin 'Valloric/YouCompleteMe'
+call vundle#end()            " required
+filetype plugin indent on    " required
+" 开启语法高亮
+syntax enable
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" 解决backspace不能删除tab和默认兼容模式
+set backspace=indent,eol,start
+" <Leader> 键设置
+let mapleader = "\<Space>"
+" 使用<Space>s 进入Vim 编辑模式
+nnoremap <Leader>v V
+" <Space>w 写入文件（保存)
+nnoremap <Leader>w :w<CR>
 
-
-
-" 不使用vi的键盘模式
-" set nocompatible
-
-"语法高亮
-set syntax=on
-" 配色方案
-set background=dark
-colorscheme solarized
-" 在处理未保存或只读文件时，弹出确认
-set confirm
-
-" 自动缩进
-set autoindent
-set cindent
-
-" 自动换行
-set wrap
-
-" 整词换行
-set linebreak
-
-" Tab建的宽度
-set tabstop=4
-
-" 统一缩进为4
-set softtabstop=4
-set shiftwidth=4
-
-" 不要使用空格代替制表符
-set noexpandtab
-
-" 在行和段开始处使用制表符
-set smarttab
-
+nnoremap <CR> G
 " 显示行号
 set number
 
-" 突出显示当前行
-set cursorline
-
-" 历史记录数
-set history=1000
-
-" 禁止生成临时文件
-set nobackup
-set noswapfile
-
-"搜索忽略大小写
-set ignorecase
-
-" 搜索逐字符高亮
-set hlsearch
-set incsearch
-
-" 行内替换
-set gdefault
-
-" 编码设置
-set enc=utf-8
-set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gbk2312,cp936
-
-" 语言设置
-set helplang=cn
-set encoding=utf-8
-set langmenu=zh_CN.UTF-8
-set imcmdline
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-" 字体设置
-set guifont=Liberation\ Mono\ 12
-
-" 状态栏内容
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-
 " 总是显示状态栏
 set laststatus=2
-
-" 在编辑过程中，在右下角显示光标位置的状态
 set ruler
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%y/%m/%d\ -\ %H:%M\")}
 
-" 命令行（在状态行下）的高度，默认为1,这里是2
-set cmdheight=2
-
-" 隐藏工具栏
-set guioptions-=T
-
-" 隐藏滚动条
-set guioptions-=r
-
+" tab宽度
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+" 距离顶部和底部5行
+set scrolloff=5
+" 自动缩进
+set autoindent
+set cindent
+" 自动换行
+set wrap
 " 开启新行时使用智能自动缩进
 set smartindent
-" 侦测文件类型
-filetype on
 
-" 载入文件类型插件
-filetype plugin on
+set splitbelow
+set splitright
 
-" 为特定文件类型载入相关缩进文件
-filetype indent on
+" 突出显示当前行
+set cursorline
+" 突出显示当前列
+set cursorcolumn
+" 高亮显示匹配的括号
+set showmatch
+" 匹配括号高亮的时间（单位是十分之一秒)
+set matchtime=5
+" 历史记录数
+set history=100
+"禁止生成临时文件
+set nobackup
+set noswapfile
+" 设置编码
+set encoding=utf-8
+" 设置字体
+set guifont=Liberation\ Mono\ 12
 
-" 保存全局变量
-set viminfo+=!
-
-" 带有如下符号的单词不要被换行分割
-set iskeyword+=_,$,@,%,#,-
-
-" 字符间插入的像素行数目
-set linespace=0
-
-" 增强模式中的命令行自动完成操作
-set wildmenu
-
-" 使回格键正常处理indent,eol,start
-set backspace=indent,eol
-
-" 允许backspace和光标键跨越行边界
-set whichwrap+=<,>,h,l
-
-" 可以在buffer的任何地方使用鼠标(类似Office中在工作区双击鼠标定位)
+" 可以在buffer的任何地方使用鼠标
 set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
-
-" 通过使用:commands命令，告诉我们文件的那一行被修改过
-set report=0
-
-" 启动的时候不显示那个援助索马里儿童的提示
-" set hortmess=atl
-
-" 在被分割的窗口间显示空白，便于阅读
-" set fillchars=vert:\,stl:\,stlnc:\
-
-" 高亮显示匹配的括号
-set showmatch
-
-" 匹配括号高亮的时间（单位是十分之一秒）
-set matchtime=5
-
-" 光标移动到buffer的顶部和底部时保持3行距离
-set scrolloff=3
-
-" 为c程序提供自动缩进
-set smartindent
-
-" 用空格键来开关折叠
-set foldenable
-set foldmethod=manual
-nnoremap<space>@=((foldclosed(line('.'))<0)?'zc':'zo')<CR>
-
-" NERDTree 插件
-" 启动vim时自动打开NERDTree
-autocmd VimEnter * NERDTree
-
-" 打开与关闭侧边栏
+" NERDTree
+autocmd vimenter * NERDTree
 map <F2> :NERDTreeToggle<CR>
 " 显示侧边栏行号
 let NERDTreeShowLineNumbers=1
-let NERDTreeAutoCenter=1
+let NERDTreeAtuoCenter=1
 " 设置侧边栏宽度
 let NERDTreeWinSize=31
-" 在终端启动vim时，共享NERDTree
+" 在终端启动时，共享NERDTree
 let g:nerdtree_tabs_open_on_console_startup=1
-" 忽略一下文件的显示
+" 忽略一下格式文件的显示
 let NERDTreeIgnore=['\.pyc','\~$','\.swp']
 " 显示书签列表
 let NERDTreeShowBookmarks=1
-
-" 将NERDTree 的窗口设置在vim窗口的右侧（默认为左侧)
+" 将NERDTree窗口显示在右侧，默认在左侧
 let NERDTreeWinPos="left"
+nnoremap <Leader>j <C-W><C-J>
+nnoremap <Leader>k <C-W><C-K>
+nnoremap <Leader>l <C-W><C-L>
+nnoremap <Leader>h <C-W><C-H>
+" indentLine配置
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#256A09'
+let g:indentLine_color_tty_light = 7
+let g:indentLine_color_dark = 1
+" 代码折叠
+set foldmethod=indent
+set foldlevel=99
+let g:SimpylFold_docstring_preview=1
+" <Space> + <Space> 按两次空格键
+nnoremap <Leader><space> za
 
+au BufNewFile,BufRead *.py
+	\ set tabstop=4 |
+	\ set softtabstop=4 |
+	\ set shiftwidth=4 |
+	\ set textwidth=79 |
+	\ set expandtab |
+	\ set autoindent |
+	\ set fileformat=unix
+
+au BufNewFile,BufRead *.js, *.html, *.css
+	\ set tabstop=2 |
+	\ set softtabstop=2 |
+	\ set shiftwidth=2
+
+" 显示多余空字符
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match Error /\s\+$/
+
+" Jedi-vim 配置
+let g:jedi#auto_initialization = 1
+let g:jedi#auto_vim_configuration = 1
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#popup_on_dot = 1
+let g:jedi#popup_select_first = 1
+let g:jedi#show_call_signatures = "1"
+let g:jedi#goto_command = "<Leader>d"
+let g:jedi#goto_assignments_command = "<Leader>g"
+let g:jedi#goto_definitions_command = ""
+let g:jedi#docmentation_command = "K"
+let g:jedi#usages_command = "<Leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<Leader>r"
+
+" vim-pyenv
+if jedi#init_python()
+	function! s:jedi_auto_force_py_version() abort
+		let major_version = pyenv#python#get_internal_major_version()
+		call jedi#force_py_version(major_version)
+	endfunction
+	augroup vim-pyenv-custom-augroup
+		autocmd! *
+		autocmd User vim-pyenv-activate-post call s:jedi_auto_force_py_version()
+		autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
+	augroup END
+endif
+
+"if has('python')
+"		let g:loaded_jedi = 1
+"py << EOF
+"import os.path
+"import sys
+"import vim
+"if 'VIRTUAL_ENV' in os.environ:
+"    project_base_dir = os.environ['VIRTUAL_ENV']
+"    sys.path.insert(0, project_base_dir)
+"    activate = os.path.join(project_base_dir, 'bin/activate')
+"    execfile(activate, dict(__file__=activate))
+"EOF
+"endif
+"
+"
+"vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
